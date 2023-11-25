@@ -62,6 +62,9 @@ private:
 	Ref<Texture2D> texture;
 	ExpandMode expand_mode = EXPAND_KEEP_SIZE;
 	StretchMode stretch_mode = STRETCH_SCALE;
+	/* Added for showing images { */
+	bool draw_bg = false;
+	/* } */
 
 	void _texture_changed();
 
@@ -88,6 +91,11 @@ public:
 
 	void set_flip_v(bool p_flip);
 	bool is_flipped_v() const;
+
+/* Added for showing images { */
+	void set_draw_bg(bool p_bg);
+	bool is_draw_bg() const;
+/* } */
 
 	TextureRect();
 	~TextureRect();

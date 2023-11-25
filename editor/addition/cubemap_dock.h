@@ -14,6 +14,9 @@
 #include "scene/gui/tab_container.h"
 #include "scene/gui/split_container.h"
 #include "scene/gui/file_dialog.h"
+/* Added for showing images { */
+#include "scene/gui/texture_rect.h"
+/* } */
 
 class TreeItem;
 
@@ -31,6 +34,23 @@ class CubeMapDock : public Control {
 	Button *front_btn = nullptr;
 	Button *back_btn = nullptr;
 	Button *make_btn = nullptr;
+	
+	/* Added for showing images { */
+	HBoxContainer *top_bottom_box = nullptr;
+	HBoxContainer *top_bottom_img_box = nullptr;
+	HBoxContainer *left_right_box = nullptr;
+	HBoxContainer *left_right_img_box = nullptr;
+	HBoxContainer *front_back_box = nullptr;
+	HBoxContainer *front_back_img_box = nullptr;
+	Panel *panel = nullptr;
+	TextureRect *top_img = nullptr;
+	TextureRect *bottom_img = nullptr;
+	TextureRect *left_img = nullptr;
+	TextureRect *right_img = nullptr;
+	TextureRect *front_img = nullptr;
+	TextureRect *back_img = nullptr;
+	/* } */
+
 	Tree *tree = nullptr;
 	FileDialog *file_dialog = nullptr;
 	PopupMenu *popup_menu = nullptr;

@@ -111,6 +111,24 @@ void CubeMapDock::_on_file_dialog_file_selected(String path)
 	right_btn->set_text("Right: " + right_path);
 	front_btn->set_text("Front: " + front_path);
 	back_btn->set_text("Back: " + back_path);
+	Ref<Texture2D> texture_top = ResourceLoader::load(top_path, "Texture2D");
+	if(texture_top.is_valid())
+		top_img->set_texture(texture_top);
+	Ref<Texture2D> texture_bottom = ResourceLoader::load(bottom_path, "Texture2D");
+	if(texture_bottom.is_valid())
+		bottom_img->set_texture(texture_bottom);
+	Ref<Texture2D> texture_left = ResourceLoader::load(left_path, "Texture2D");
+	if(texture_left.is_valid())
+		left_img->set_texture(texture_left);
+	Ref<Texture2D> texture_right = ResourceLoader::load(right_path, "Texture2D");
+	if(texture_right.is_valid())
+		right_img->set_texture(texture_right);
+	Ref<Texture2D> texture_front = ResourceLoader::load(front_path, "Texture2D");
+	if(texture_front.is_valid())
+		front_img->set_texture(texture_front);
+	Ref<Texture2D> texture_back = ResourceLoader::load(back_path, "Texture2D");
+	if(texture_back.is_valid())
+		back_img->set_texture(texture_back);
 }
 
 void _rec_UpdateTree(Tree* tree, TreeItem* root, const String& path)
@@ -236,6 +254,24 @@ void CubeMapDock::_on_popup_menu_index_pressed(int id)
 	right_btn->set_text("Right: " + right_path);
 	front_btn->set_text("Front: " + front_path);
 	back_btn->set_text("Back: " + back_path);
+	Ref<Texture2D> texture_top = ResourceLoader::load(top_path, "Texture2D");
+	if(texture_top.is_valid())
+		top_img->set_texture(texture_top);
+	Ref<Texture2D> texture_bottom = ResourceLoader::load(bottom_path, "Texture2D");
+	if(texture_bottom.is_valid())
+		bottom_img->set_texture(texture_bottom);
+	Ref<Texture2D> texture_left = ResourceLoader::load(left_path, "Texture2D");
+	if(texture_left.is_valid())
+		left_img->set_texture(texture_left);
+	Ref<Texture2D> texture_right = ResourceLoader::load(right_path, "Texture2D");
+	if(texture_right.is_valid())
+		right_img->set_texture(texture_right);
+	Ref<Texture2D> texture_front = ResourceLoader::load(front_path, "Texture2D");
+	if(texture_front.is_valid())
+		front_img->set_texture(texture_front);
+	Ref<Texture2D> texture_back = ResourceLoader::load(back_path, "Texture2D");
+	if(texture_back.is_valid())
+		back_img->set_texture(texture_back);
 }
 
 void CubeMapDock::_tree_gui_input(const Ref<InputEvent> &p_event) 
@@ -280,7 +316,6 @@ void CubeMapDock::UpdateTree()
 	_rec_UpdateTree(tree, root, "res://");
 }
 
-
 CubeMapDock::CubeMapDock() {
 	singleton = this;
 	set_name("CubeMap");
@@ -302,6 +337,46 @@ CubeMapDock::CubeMapDock() {
 	file_dialog = memnew(FileDialog);
 	popup_menu = memnew(PopupMenu);
 
+	/* Added for showing images { */
+	top_bottom_box = memnew(HBoxContainer);
+	top_bottom_img_box = memnew(HBoxContainer);
+	left_right_box = memnew(HBoxContainer);
+	left_right_img_box = memnew(HBoxContainer);
+	front_back_box = memnew(HBoxContainer);
+	front_back_img_box = memnew(HBoxContainer);
+	top_img = memnew(TextureRect);
+	bottom_img = memnew(TextureRect);
+	left_img = memnew(TextureRect);
+	right_img = memnew(TextureRect);
+	front_img = memnew(TextureRect);
+	back_img = memnew(TextureRect);
+	
+	top_img->set_draw_bg(true);
+	bottom_img->set_draw_bg(true);
+	left_img->set_draw_bg(true);
+	right_img->set_draw_bg(true);
+	front_img->set_draw_bg(true);
+	back_img->set_draw_bg(true);
+
+	top_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	top_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	top_img->set_custom_minimum_size({100, 100});
+	bottom_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	bottom_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	bottom_img->set_custom_minimum_size({100, 100});
+	left_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	left_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	left_img->set_custom_minimum_size({100, 100});
+	right_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	right_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	right_img->set_custom_minimum_size({100, 100});
+	front_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	front_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	front_img->set_custom_minimum_size({100, 100});
+	back_img->set_stretch_mode(TextureRect::STRETCH_KEEP_ASPECT);
+	back_img->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+	back_img->set_custom_minimum_size({100, 100});
+	/* } */
 
 //================== this ==================
 	this->set_name("CubeMap");
@@ -337,42 +412,83 @@ CubeMapDock::CubeMapDock() {
 //================== select ==================
 	select->set_name("Select");
 	split->add_child(select);
+	/* Added for showing images { */
+	select->add_child(top_bottom_box);
+	select->add_child(top_bottom_img_box);
+	select->add_child(left_right_box);
+	select->add_child(left_right_img_box);
+	select->add_child(front_back_box);
+	select->add_child(front_back_img_box);
+	/* } */
 //================== top_btn ==================
 	top_btn->set_name("Top_btn");
-	select->add_child(top_btn);
-	top_btn->set_text("Top:");
+	top_bottom_box->add_child(top_btn);
+	top_btn->set_text("Top");
 	top_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	top_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
 //================== bottom_btn ==================
 	bottom_btn->set_name("Bottom_btn");
-	select->add_child(bottom_btn);
-	bottom_btn->set_text("Bottom:");
+	top_bottom_box->add_child(bottom_btn);
+	bottom_btn->set_text("Bottom");
 	bottom_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	bottom_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
+
+/* Added for showing images { */
+//================== top_bottom_image ==================
+	top_btn->set_h_size_flags(3);
+	bottom_btn->set_h_size_flags(3);
+	top_img->set_h_size_flags(3);
+	bottom_img->set_h_size_flags(3);
+	top_bottom_img_box->add_child(top_img);
+	top_bottom_img_box->add_child(bottom_img);
+/* } */
+
 //================== left_btn ==================
 	left_btn->set_name("Left_btn");
-	select->add_child(left_btn);
-	left_btn->set_text("Left:");
+	left_right_box->add_child(left_btn);
+	left_btn->set_text("Left");
 	left_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	left_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
 //================== right_btn ==================
 	right_btn->set_name("Right_btn");
-	select->add_child(right_btn);
-	right_btn->set_text("Right:");
+	left_right_box->add_child(right_btn);
+	right_btn->set_text("Right");
 	right_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	right_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
+
+/* Added for showing images { */
+//================== left_right_image ==================
+	left_btn->set_h_size_flags(3);
+	right_btn->set_h_size_flags(3);
+	left_img->set_h_size_flags(3);
+	right_img->set_h_size_flags(3);
+	left_right_img_box->add_child(left_img);
+	left_right_img_box->add_child(right_img);
+/* } */
+
 //================== front_btn ==================
 	front_btn->set_name("Front_btn");
-	select->add_child(front_btn);
-	front_btn->set_text("Front:");
+	front_back_box->add_child(front_btn);
+	front_btn->set_text("Front");
 	front_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	front_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
 //================== back_btn ==================
 	back_btn->set_name("Back_btn");
-	select->add_child(back_btn);
-	back_btn->set_text("Back:");
+	front_back_box->add_child(back_btn);
+	back_btn->set_text("Back");
 	back_btn->set_text_alignment(HORIZONTAL_ALIGNMENT_LEFT);
 	back_btn->set_text_overrun_behavior(TextServer::OVERRUN_TRIM_CHAR);
+
+/* Added for showing images { */
+//================== left_right_image ==================
+	front_btn->set_h_size_flags(3);
+	back_btn->set_h_size_flags(3);
+	front_img->set_h_size_flags(3);
+	back_img->set_h_size_flags(3);
+	front_back_img_box->add_child(front_img);
+	front_back_img_box->add_child(back_img);
+/* } */
+
 //================== make_btn ==================
 	make_btn->set_name("Make_btn");
 	select->add_child(make_btn);

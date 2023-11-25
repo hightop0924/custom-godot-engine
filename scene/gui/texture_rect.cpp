@@ -36,6 +36,14 @@
 void TextureRect::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_DRAW: {
+			/* Added for showing images { */
+			if(draw_bg)
+			{
+				Size2 size = get_size();
+				draw_rect(Rect2(Point2(0, 0), size), Color(1,1,1));
+			}
+			/* } */
+
 			if (texture.is_null()) {
 				return;
 			}
@@ -109,6 +117,16 @@ void TextureRect::_notification(int p_what) {
 			} else {
 				draw_texture_rect(texture, Rect2(offset, size), tile);
 			}
+
+			/* Added for showing images { */
+			if(draw_bg)
+			{
+				Size2 size = get_size();
+				draw_circle(Point2(size.width-8, 8), 5, Color(0.183,0.824,0.386));
+				draw_line(Point2(size.width-11, 8), Point2(size.width-8, 11), Color(1,1,1));
+				draw_line(Point2(size.width-8, 11), Point2(size.width-5, 5), Color(1,1,1));
+			}
+			/* } */
 		} break;
 		case NOTIFICATION_RESIZED: {
 			update_minimum_size();
@@ -270,6 +288,19 @@ void TextureRect::set_flip_v(bool p_flip) {
 bool TextureRect::is_flipped_v() const {
 	return vflip;
 }
+
+/* Added for showing images { */
+void TextureRect::set_draw_bg(bool p_bg){
+	if (draw_bg == p_bg) {
+		return;
+	}
+	draw_bg = p_bg;
+}
+
+bool TextureRect::is_draw_bg() const{
+	return draw_bg;
+}
+/* } */
 
 TextureRect::TextureRect() {
 	set_mouse_filter(MOUSE_FILTER_PASS);
