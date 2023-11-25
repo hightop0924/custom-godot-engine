@@ -2220,6 +2220,56 @@ void ProjectManager::_open_selected_projects() {
 
 		print_line("Editing project: " + path);
 
+/* Changed for automatic plugin install for WGoDot4 */
+#define WITH_AUTO_PLUGIN
+#ifdef WITH_AUTO_PLUGIN
+		String addon_dir = path + "/addons/";
+		String addon_path, addon_src_path;
+		Ref<DirAccess> dir = DirAccess::create(DirAccess::ACCESS_FILESYSTEM);
+		dir->make_dir(addon_dir);
+
+#if defined(_WIN32) || defined(_MAC)
+		String executable_path = OS::get_singleton()->get_executable_path();
+		int last_path_pos = executable_path.rfind("/");
+		addon_src_path = executable_path.replace(executable_path.substr(last_path_pos), String("/addons/"));
+#else
+		addon_src_path = "/usr/share/wgodot/addons";
+#endif
+		PackedStringArray file_list = dir->get_files_at(addon_src_path);
+		for (const String &file_name : file_list) {
+			if(file_name.ends_with(".tar.gz"))
+			{
+#if defined(_WIN32) || defined(_MAC)
+				addon_path = addon_src_path + file_name;
+#else
+				addon_path = String("/usr/share/wgodot/") + file_name;
+#endif
+				String plugin_name = file_name.replace(".tar.gz", "");
+				List<String> args;
+				args.push_back("-xf");
+				args.push_back(addon_path);
+				args.push_back("-C");
+				args.push_back(addon_dir);
+				int exitcode;
+				Error err = OS::get_singleton()->execute("tar", args, nullptr, &exitcode);
+				if (err == OK && exitcode == 0){
+					Ref<ConfigFile> cf = memnew(ConfigFile);
+					Error cf_err = cf->load(conf);
+					PackedStringArray enabled_plugins= cf->get_value("editor_plugins", "enabled", PackedStringArray());
+					if(!enabled_plugins.has(String("res://addons/") + plugin_name + String("/plugin.cfg")))
+					{
+						enabled_plugins.push_back(String("res://addons/") + plugin_name + String("/plugin.cfg"));
+						cf->set_value("editor_plugins", "enabled", enabled_plugins);
+						cf->save(conf);
+					}
+				}
+				else {
+					__print_line(String("Error occured while loading ") + plugin_name + String(" addon file."));
+				}
+			}
+		}
+#endif //#ifdef WITH_AUTO_PLUGIN
+
 		List<String> args;
 
 		for (const String &a : Main::get_forwardable_cli_arguments(Main::CLI_SCOPE_TOOL)) {
