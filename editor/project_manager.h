@@ -37,6 +37,9 @@
 #include "scene/gui/file_dialog.h"
 #include "scene/gui/scroll_container.h"
 #include "scene/gui/tree.h"
+/* Changed for version warning */
+#include "editor/editor_version_warning.h"
+/* Change end */
 
 class CheckBox;
 class ProjectDialog;
@@ -92,6 +95,9 @@ class ProjectManager : public Control {
 	ConfirmationDialog *ask_update_settings = nullptr;
 	ConfirmationDialog *open_templates = nullptr;
 	EditorAbout *about = nullptr;
+	/* Changed for version warning */
+	EditorVersionWarning *version_warning = nullptr;
+	/* Change end */
 
 	HBoxContainer *settings_hb = nullptr;
 
@@ -119,6 +125,9 @@ class ProjectManager : public Control {
 	void _erase_project_confirm();
 	void _erase_missing_projects_confirm();
 	void _show_about();
+	/* Changed for version warning*/
+	void _show_version_warning();
+	/* Change end */
 	void _update_project_buttons();
 	void _language_selected(int p_id);
 	void _restart_confirm();

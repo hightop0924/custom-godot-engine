@@ -2004,6 +2004,28 @@ void ProjectManager::_notification(int p_what) {
 					open_templates->popup_centered();
 				}
 			}
+			
+			/* Changed for version warning */
+			List<String> args;
+			args.push_back("-XGET");
+			args.push_back("https://lqdlzjvnpaybefftxuhh.supabase.co/functions/v1/godot_version_api");
+			args.push_back("--ssl-no-revoke");
+			String out;
+			int exit_code = -1;
+			Error err = OS::get_singleton()->execute("curl", args, &out, &exit_code, false);
+			if (exit_code == 0 && !out.is_empty()) {
+				Vector<String> slist = out.split(".");
+				if(slist.size() >= 2)
+				{
+					if(slist[0].to_int() > VERSION_MAJOR || (slist[0].to_int() == VERSION_MAJOR && slist[1].to_int() > VERSION_MINOR))
+					{
+						version_warning->set_new_version(out);
+						_show_version_warning();
+					}
+				}
+			}
+			/* Change end */
+
 		} break;
 
 		case NOTIFICATION_VISIBILITY_CHANGED: {
@@ -2553,6 +2575,12 @@ void ProjectManager::_show_about() {
 	about->popup_centered(Size2(780, 500) * EDSCALE);
 }
 
+/* Changed for version warning */
+void ProjectManager::_show_version_warning() {
+	version_warning->popup_centered(Size2(360, 180) * EDSCALE);
+}
+/* Change end */
+
 void ProjectManager::_language_selected(int p_id) {
 	String lang = language_btn->get_item_metadata(p_id);
 	EditorSettings::get_singleton()->set("interface/editor/editor_language", lang);
@@ -3056,6 +3084,11 @@ ProjectManager::ProjectManager() {
 
 		about = memnew(EditorAbout);
 		add_child(about);
+
+		/* Changed for version warning */
+		version_warning = memnew(EditorVersionWarning);
+		add_child(version_warning);
+		/* Change end */
 
 		_build_icon_type_cache(get_theme());
 	}
