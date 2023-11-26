@@ -10,7 +10,7 @@
 #include "scene/gui/menu_button.h"
 #include "scene/gui/option_button.h"
 #include "scene/gui/popup_menu.h"
-#include "scene/gui/tree.h"
+//#include "scene/gui/tree.h"
 #include "scene/gui/tab_container.h"
 #include "scene/gui/split_container.h"
 #include "scene/gui/file_dialog.h"
@@ -18,7 +18,7 @@
 #include "scene/gui/texture_rect.h"
 /* } */
 
-class TreeItem;
+//class TreeItem;
 
 class CubeMapDock : public Control {
 	GDCLASS(CubeMapDock, Control);
@@ -27,12 +27,12 @@ class CubeMapDock : public Control {
 	TabContainer *tab_container = nullptr;
 	HSplitContainer* split = nullptr;
 	VBoxContainer *select = nullptr;
-	Button *top_btn = nullptr;
-	Button *bottom_btn = nullptr;
-	Button *left_btn = nullptr;
-	Button *right_btn = nullptr;
-	Button *front_btn = nullptr;
-	Button *back_btn = nullptr;
+	Label *top_btn = nullptr;
+	Label *bottom_btn = nullptr;
+	Label *left_btn = nullptr;
+	Label *right_btn = nullptr;
+	Label *front_btn = nullptr;
+	Label *back_btn = nullptr;
 	Button *make_btn = nullptr;
 	
 	/* Added for showing images { */
@@ -43,15 +43,15 @@ class CubeMapDock : public Control {
 	HBoxContainer *front_back_box = nullptr;
 	HBoxContainer *front_back_img_box = nullptr;
 	Panel *panel = nullptr;
-	TextureRect *top_img = nullptr;
-	TextureRect *bottom_img = nullptr;
-	TextureRect *left_img = nullptr;
-	TextureRect *right_img = nullptr;
-	TextureRect *front_img = nullptr;
-	TextureRect *back_img = nullptr;
+	TextureButton *top_img = nullptr;
+	TextureButton *bottom_img = nullptr;
+	TextureButton *left_img = nullptr;
+	TextureButton *right_img = nullptr;
+	TextureButton *front_img = nullptr;
+	TextureButton *back_img = nullptr;
 	/* } */
 
-	Tree *tree = nullptr;
+	//Tree *tree = nullptr;
 	FileDialog *file_dialog = nullptr;
 	PopupMenu *popup_menu = nullptr;
 
@@ -81,7 +81,7 @@ private:
 
 public:
 	static CubeMapDock *get_singleton() { return singleton; }
-	void UpdateTree();
+	//void UpdateTree();
 protected:
 	void _on_top_btn_pressed();
 	void _on_bottom_btn_pressed();
@@ -92,7 +92,7 @@ protected:
 	void _on_make_btn_pressed();
 	void _on_file_dialog_file_selected(String path);
 	void _on_popup_menu_index_pressed(int id);
-	void _tree_gui_input(const Ref<InputEvent> &p_event);
+	//void _tree_gui_input(const Ref<InputEvent> &p_event);
 
 public:
 	CubeMapDock();

@@ -63,6 +63,9 @@ private:
 
 	bool hflip = false;
 	bool vflip = false;
+	/* Added for showing images { */
+	bool draw_bg = false;
+	/* } */
 
 protected:
 	virtual Size2 get_minimum_size() const override;
@@ -96,6 +99,11 @@ public:
 
 	void set_flip_v(bool p_flip);
 	bool is_flipped_v() const;
+
+/* Added for showing images { */
+	void set_draw_bg(bool p_bg);
+	bool is_draw_bg() const;
+/* } */
 
 	TextureButton();
 };

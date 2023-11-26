@@ -121,6 +121,14 @@ bool TextureButton::has_point(const Point2 &p_point) const {
 void TextureButton::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_DRAW: {
+			/* Added for showing images { */
+			if(draw_bg)
+			{
+				Size2 size = get_size();
+				draw_rect(Rect2(Point2(0, 0), size), Color(1,1,1));
+			}
+			/* } */
+
 			DrawMode draw_mode = get_draw_mode();
 
 			Ref<Texture2D> texdraw;
@@ -245,6 +253,26 @@ void TextureButton::_notification(int p_what) {
 			if (draw_focus) {
 				draw_texture_rect(focused, Rect2(ofs, size), false);
 			};
+
+			/* Added for showing images { */
+			if(draw_bg)
+			{
+				if (normal.is_valid())
+				{
+					Size2 size = get_size();
+					draw_circle(Point2(size.width-8, 8), 5, Color(0.183,0.824,0.386));
+					draw_line(Point2(size.width-11, 8), Point2(size.width-8, 11), Color(1,1,1), 2.0);
+					draw_line(Point2(size.width-8, 11), Point2(size.width-5, 5), Color(1,1,1), 2.0);
+					//draw_string(get_theme_default_font(), Point2(5, 15), get_name(), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0,0,0));
+				}
+				else
+				{
+					draw_line(Point2(50, 30), Point2(50, 70), Color(0.5,0.5,0.5), 4.0);
+					draw_line(Point2(30, 50), Point2(70, 50), Color(0.5,0.5,0.5), 4.0);
+					//draw_string(get_theme_default_font(), Point2(5, 15), get_name(), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0,0,0));
+				}
+			}
+			/* } */
 		} break;
 	}
 }
@@ -417,6 +445,19 @@ void TextureButton::set_flip_v(bool p_flip) {
 	vflip = p_flip;
 	queue_redraw();
 }
+
+/* Added for showing images { */
+void TextureButton::set_draw_bg(bool p_bg){
+	if (draw_bg == p_bg) {
+		return;
+	}
+	draw_bg = p_bg;
+}
+
+bool TextureButton::is_draw_bg() const{
+	return draw_bg;
+}
+/* } */
 
 bool TextureButton::is_flipped_v() const {
 	return vflip;
