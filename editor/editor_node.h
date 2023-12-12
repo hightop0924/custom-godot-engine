@@ -39,6 +39,7 @@
 #include "editor/editor_run.h"
 #include "editor/editor_title_bar.h"
 #include "editor/export/editor_export.h"
+#include "editor/image_composer.h"
 
 typedef void (*EditorNodeInitCallback)();
 typedef void (*EditorPluginInitializeCallback)();
@@ -79,6 +80,8 @@ class EditorToaster;
 class EditorUndoRedoManager;
 class ExportTemplateManager;
 class FBXImporterManager;
+class ImageComposerManager;
+class ImageComposer;
 class FileDialog;
 class FileSystemDock;
 class HistoryDock;
@@ -290,6 +293,7 @@ private:
 	ProjectSettingsEditor *project_settings_editor = nullptr;
 
 	FBXImporterManager *fbx_importer_manager = nullptr;
+	ImageComposer *image_composer = nullptr;
 
 	Vector<EditorPlugin *> editor_plugins;
 	bool _initializing_plugins = false;
@@ -867,6 +871,8 @@ public:
 	void request_instantiate_scenes(const Vector<String> &p_files);
 
 	void set_convert_old_scene(bool p_old) { convert_old = p_old; }
+
+	void show_image_composer(const String &p_path);
 
 	void notify_all_debug_sessions_exited();
 

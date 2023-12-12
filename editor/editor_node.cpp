@@ -144,6 +144,7 @@
 #include "editor/scene_tree_dock.h"
 
 #include "addition/cubemap_dock.h"
+#include "addition/image_composer_dock.h"
 #include "addition/rigging_dock.h"
 
 #include <stdio.h>
@@ -1659,6 +1660,10 @@ bool EditorNode::_validate_scene_recursive(const String &p_filename, Node *p_nod
 	}
 
 	return false;
+}
+
+void EditorNode::show_image_composer(const String &p_path){
+	image_composer->show_dialog(p_path);
 }
 
 int EditorNode::_save_external_resources() {
@@ -7211,6 +7216,9 @@ EditorNode::EditorNode() {
 	gui_base->add_child(fbx_importer_manager);
 #endif
 
+	image_composer = memnew(ImageComposer);
+	gui_base->add_child(image_composer);
+	
 	warning = memnew(AcceptDialog);
 	warning->add_button(TTR("Copy Text"), true, "copy");
 	gui_base->add_child(warning);
@@ -7601,6 +7609,7 @@ EditorNode::EditorNode() {
 
 	// Add
 	memnew(CubeMapDock);
+	memnew(ImageComposerDock);
 	memnew(RiggingSystemDock);
 
 	FileSystemDock *filesystem_dock = memnew(FileSystemDock);
@@ -7622,6 +7631,9 @@ EditorNode::EditorNode() {
 	// CubeMap: Top left, behind Scene.
 	dock_slot[DOCK_SLOT_LEFT_UR]->add_child(CubeMapDock::get_singleton());
 	dock_slot[DOCK_SLOT_LEFT_UR]->set_tab_title(dock_slot[DOCK_SLOT_LEFT_UR]->get_tab_idx_from_control(CubeMapDock::get_singleton()), "CubeMap");
+
+	dock_slot[DOCK_SLOT_LEFT_UR]->add_child(ImageComposerDock::get_singleton());
+	dock_slot[DOCK_SLOT_LEFT_UR]->set_tab_title(dock_slot[DOCK_SLOT_LEFT_UR]->get_tab_idx_from_control(ImageComposerDock::get_singleton()), "ImageComposer");
 		
 	// RiggingSystemDock: Top left, behind Scene.
 	dock_slot[DOCK_SLOT_LEFT_UR]->add_child(RiggingSystemDock::get_singleton());
