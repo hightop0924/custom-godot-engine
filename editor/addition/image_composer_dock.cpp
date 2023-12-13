@@ -56,7 +56,7 @@ ImageComposerDock::ImageComposerDock() {
 	path_browse->set_text(TTR("Browse"));
 	path_browse->connect("pressed", callable_mp(this, &ImageComposerDock::_browse_install));
 	hb->set_h_size_flags(Control::SIZE_EXPAND_FILL);
-	hb->set_custom_minimum_size(Size2(400 * EDSCALE, 0));
+	hb->set_custom_minimum_size(Size2(200 * EDSCALE, 0));
 
 	vb->add_child(hb);
 

@@ -4,6 +4,7 @@
 #include "editor/editor_file_dialog.h"
 #include "scene/gui/dialogs.h"
 #include "scene/gui/line_edit.h"
+#include "scene/gui/button.h"
 #include "scene/gui/multi_texture_rect.h"
 
 class ImageComposer : public ConfirmationDialog {
